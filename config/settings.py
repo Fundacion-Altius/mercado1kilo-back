@@ -15,7 +15,9 @@ import os
 from pathlib import Path
 from datetime import timedelta
 from django.utils.translation import gettext_lazy as _
+from dotenv import load_dotenv
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -175,4 +177,4 @@ SWAGGER_SETTINGS = {
 
 SESSION_ENGINE = "django.contrib.sessions.backends.db"  # Default session engine
 # EAN Search API settings
-EAN_SEARCH_API_TOKEN = '65cae3d96d73b0340317d755ab0cf6628aa748aa'
+EAN_SEARCH_API_TOKEN = os.getenv("EAN")
