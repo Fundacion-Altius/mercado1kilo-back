@@ -17,7 +17,7 @@ urlpatterns = [
         name="inventory-items-detail",
     ),
     path("products/", product_views.product_list, name="products"),
-    path("products/<int:pk>/", product_views.product_detail, name="product-detail"),
+    # path("products/<int:pk>/", product_views.product_detail, name="product-detail"),
     path("categories/", category_views.category_list, name="categories"),
     path(
         "categories/<int:pk>/", category_views.category_detail, name="category-detail"
@@ -34,6 +34,6 @@ urlpatterns = [
     ),
     path("batches/", batch_views.batch_list, name="batches"),
     path("batches/<int:pk>/", batch_views.batch_detail, name="batch-detail"),
-    path('ean-lookup/', product_views.ean_lookup, name='ean_lookup'),
+    # path('ean-lookup/', product_views.ean_lookup, name='ean_lookup'),
 
 ]

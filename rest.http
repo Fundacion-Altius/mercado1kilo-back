@@ -1,8 +1,8 @@
 @protocol=http
 @host=localhost
 @port=8000
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIyOTM3MDY4LCJpYXQiOjE3MjI5MzM0NjgsImp0aSI6IjhkMDg4ZDRlZjVlOTRkMjJhODEzMTkxMDE4NTJkZmEwIiwidXNlcl9pZCI6Mn0.d6BGhU-x47OSQdnqGcpLt02KhERkyAatWqBpFdhf-Yw
-######
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM4MTQ4NjMyLCJpYXQiOjE3MzgxNDUwMzIsImp0aSI6IjIyYTAwMDM4YWRiZDQ2ZWM5NjdkNTQ5NTRmZjMxYmY1IiwidXNlcl9pZCI6MX0.HAf3LNrjwqwVj_seaNnxe2x_RhuWWFNM0fA7mE96hF8
+@ean=5449000224453
 GET {{protocol}}://{{host}}:{{port}}/api/ HTTP/1.1
 
 ######
@@ -78,3 +78,6 @@ Content-Type: application/json
     "category": "Dairy",
     "unit_of_measure": "kilogram"
 }
+######
+GET  {{protocol}}://{{host}}:{{port}}/inventory/ean-lookup/?ean={{ean}}
+Authorization: Bearer {{token}}
