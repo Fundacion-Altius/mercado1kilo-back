@@ -1,14 +1,22 @@
 from django.urls import path
-from . import views
-from .views import  group_list
-
-from rest_framework_simplejwt.views import TokenRefreshView
+from .views import (
+    register, login, user_list_create, user_detail, group_list,
+    group_create, user_assign_group, activity_list, activity_detail
+)
 
 urlpatterns = [
-    path('register/', views.register, name='register'),
-    path('login/', views.login, name='login'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('users/', views.user_list_create, name='user-list-create'),
-    path('users/<int:pk>/', views.user_detail, name='user-detail'),
+    # User-related endpoints
+    path('register/', register, name='register'),
+    path('login/', login, name='login'),
+    path('users/', user_list_create, name='user-list-create'),
+    path('users/<int:pk>/', user_detail, name='user-detail'),
+    path('users/<int:pk>/assign-group/', user_assign_group, name='user-assign-group'),
+
+    # Group-related endpoints
     path('groups/', group_list, name='group-list'),
+    path('groups/create/', group_create, name='group-create'),
+
+    # Activity-related endpoints
+    path('activities/', activity_list, name='activity-list'),
+    path('activities/<int:pk>/', activity_detail, name='activity-detail'),
 ]

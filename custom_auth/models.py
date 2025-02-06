@@ -1,35 +1,23 @@
-# custom_auth/models.py
-
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.utils.timezone import now
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-
-    # Override the groups field
     groups = models.ManyToManyField(
         Group,
-        verbose_name=_('groups'),
+        verbose_name=('groups'),
         blank=True,
-        help_text=_(
-            'The groups this user belongs to. A user will get all permissions '
-            'granted to each of their groups.'
-        ),
         related_name="custom_user_set",
         related_query_name="custom_user",
     )
-
-    # Override the user_permissions field
     user_permissions = models.ManyToManyField(
         Permission,
-        verbose_name=_('user permissions'),
+        verbose_name=('user permissions'),
         blank=True,
-        help_text=_('Specific permissions for this user.'),
         related_name="custom_user_set",
         related_query_name="custom_user",
     )
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
@@ -44,3 +32,31 @@ class User(AbstractUser):
 
     def is_system_administrator(self):
         return self.groups.filter(name='System Administrators').exists()
+
+
+class Activity(models.Model):
+    ACTIVITY_TYPES = [
+        ('ROLE_ASSIGNMENT', 'Role Assignment'),
+        ('PROFILE_UPDATE', 'Profile Update'),
+        ('INTERACTION', 'Interaction'),
+        ('NOTE', 'Note'),
+        ('GROUP_CREATION', 'Group Creation'),  # Add this for group creation
+    ]
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='activities',
+        null=True,  # Allow NULL for activities not tied to a specific user
+        blank=True,  # Allows empty values in forms
+    )
+    activity_type = models.CharField(max_length=50, choices=ACTIVITY_TYPES)
+    description = models.TextField(blank=True, null=True)
+    timestamp = models.DateTimeField(default=now)
+    metadata = models.JSONField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.activity_type} - {self.user.email if self.user else 'System'} ({self.timestamp})"
+    class Meta:
+        verbose_name = "Activity"  # Singular name
+        verbose_name_plural = "Activities"  # Plural name
